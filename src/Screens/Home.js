@@ -12,6 +12,7 @@ const Home = () => {
   const [gender, setGender] = useState("");
   const [race, setRace] = useState([]);
   const [options, setOptions] = useState([]);
+  const [singleView, setSingleView] = useState(false);
   const [checker, setChecker] = useState(true);
   function onSelect(selectedList, selectedItem) {
     let data = [];
@@ -68,6 +69,8 @@ const Home = () => {
     let url =
       "https://the-one-api.dev/v2/character?limit=" +
       limit +
+      "&page=" +
+      currentPage +
       "&name=" +
       searchQuery +
       "&sort=name:" +
@@ -100,9 +103,12 @@ const Home = () => {
         console.log(err.message);
       });
   };
+  const setCurrentPages = (data) => {
+    setCurrentPage(data.selected + 1);
+  };
   useEffect(() => {
     getAllCharacters();
-  }, [limit]);
+  }, [limit, currentPage]);
 
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -114,6 +120,7 @@ const Home = () => {
         <div className="border-b border-b-black flex justify-center text-xl font-semibold">
           Characters
         </div>
+        {/* {singleView === false && ( */}
         <div className="border-b border-b-black">
           <div className="flex items-center px-5 py-3 gap-6">
             <div className="flex items-center gap-3">
@@ -210,15 +217,17 @@ const Home = () => {
               <ReactPaginate
                 breakLabel="..."
                 nextLabel=""
-                // onPageChange={handlePageClick}
+                onPageChange={setCurrentPages}
                 pageCount={totalPages}
                 // pageRangeDisplayed={5}
                 marginPagesDisplayed={3}
                 previousLabel=""
                 renderOnZeroPageCount={null}
-                containerClassName={'flex items-center gap-3'}
-                pageClassName={'w-7 h-7 border border-black hover:bg-black hover:text-white hover:font-semibold cursor-pointer transition'}
-                activeClassName={'bg-black text-white font-semibold'}
+                containerClassName={"flex items-center gap-3"}
+                pageClassName={
+                  "w-7 h-7 border border-black hover:bg-black hover:text-white hover:font-semibold cursor-pointer transition"
+                }
+                activeClassName={"bg-black text-white font-semibold"}
               />
             </div>
             <div className="flex items-center gap-3">
@@ -235,6 +244,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+        {/* )} */}
       </div>
     </div>
   );
