@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import Multiselect from "multiselect-react-dropdown";
+import ReactPaginate from "react-paginate";
 
 const Home = () => {
   const [allCharacters, setAllCharacters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
-  const [limit, setLimit] = useState("");
+  const [limit, setLimit] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [gender, setGender] = useState("");
@@ -102,10 +103,6 @@ const Home = () => {
   useEffect(() => {
     getAllCharacters();
   }, [limit]);
-
-
-
-
 
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -207,9 +204,22 @@ const Home = () => {
           </div>
           <div className="flex justify-between items-center px-5 py-3">
             <div>
-              <h1 className="w-7 h-7 border border-black hover:bg-black hover:text-white hover:font-semibold cursor-pointer transition">
+              {/* <h1 className="w-7 h-7 border border-black hover:bg-black hover:text-white hover:font-semibold cursor-pointer transition">
                 1
-              </h1>
+              </h1> */}
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel=""
+                // onPageChange={handlePageClick}
+                pageCount={totalPages}
+                // pageRangeDisplayed={5}
+                marginPagesDisplayed={3}
+                previousLabel=""
+                renderOnZeroPageCount={null}
+                containerClassName={'flex items-center gap-3'}
+                pageClassName={'w-7 h-7 border border-black hover:bg-black hover:text-white hover:font-semibold cursor-pointer transition'}
+                activeClassName={'bg-black text-white font-semibold'}
+              />
             </div>
             <div className="flex items-center gap-3">
               <h1>Limit</h1>
